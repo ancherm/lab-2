@@ -1,32 +1,42 @@
 package ru.chermashentsev.cloudcomputing.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-//@Entity
-//@Table(name = "products")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
+    @NotNull
+    @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "country_producer")
     private String countryProducer;
 
+    @Column(name = "company_producer")
     private String companyProducer;
 
+    @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<ProductReview> productReviews = new LinkedHashSet<>();
 
 }

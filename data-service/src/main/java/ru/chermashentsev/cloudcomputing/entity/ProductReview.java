@@ -1,31 +1,44 @@
 package ru.chermashentsev.cloudcomputing.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-//@Entity
-//@Table(name = "productReviews")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+@Table(name = "product_reviews")
 public class ProductReview {
-
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    private long productId;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    private int rating;
+    @Column(name = "rating", nullable = false)
+    private Integer rating;
 
-    private boolean recommendToFriend;
+    @ColumnDefault("false")
+    @Column(name = "recommend_to_friend")
+    private Boolean recommendToFriend;
 
-    private boolean chooseSimilarAgain;
+    @ColumnDefault("false")
+    @Column(name = "choose_similar_again")
+    private Boolean chooseSimilarAgain;
 
-    private long userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

@@ -1,5 +1,5 @@
 create table products (
-    id bigserial primary key,
+    id bigint generated always as identity primary key,
     unit_price decimal(10, 2) not null,
     description varchar(255),
     country_producer varchar(255),
@@ -8,18 +8,18 @@ create table products (
 );
 
 create table users (
-    id bigserial primary key,
+    id bigint generated always as identity primary key,
     birthday date not null,
     gender varchar(6) not null,
-    discount_card_number char(5),
-    have_children bit,
-    married bit,
+    discount_card_number varchar(5),
+    have_children boolean default false,
+    married boolean default false,
     education varchar(255),
     city varchar(255)
 );
 
 create table product_reviews (
-    id bigserial primary key,
+    id bigint generated always as identity primary key,
     product_id bigint not null,
     rating int not null,
     recommend_to_friend boolean default false,
@@ -31,7 +31,7 @@ create table product_reviews (
 );
 
 create table kpi_metrics (
-    product_id bigserial primary key,
+    product_id bigint primary key,
     avg_rating float,
     satisfaction_index float,
     attractiveness_index float,

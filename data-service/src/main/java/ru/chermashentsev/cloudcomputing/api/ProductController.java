@@ -2,7 +2,6 @@ package ru.chermashentsev.cloudcomputing.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.chermashentsev.cloudcomputing.dto.request.product.CreateProductRequestDTO;
@@ -14,6 +13,8 @@ import ru.chermashentsev.cloudcomputing.service.ProductService;
 
 import java.util.List;
 
+import static org.springframework.http.MediaType.*;
+
 @RestController
 @RequestMapping("api/products")
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class ProductController {
     private final ProductMapper productMapper;
 
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         List<ProductResponseDTO> productResponseDTOList = productService.findAll()
                 .stream()
@@ -33,19 +34,19 @@ public class ProductController {
         return ResponseEntity.ok(productResponseDTOList);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody CreateProductRequestDTO productRequestDTO) {
 
         Product product = productMapper.toModel(productRequestDTO);
 
-        Product savedProduct = productService.insert(product);
+        Product savedProduct = productService.save(product);
 
         ProductResponseDTO productResponseDTO = productMapper.toDto(savedProduct);
 
         return ResponseEntity.ok(productResponseDTO);
     }
 
-    @PutMapping(value = "{ID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "{ID}", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponseDTO> updateProduct(@Valid @RequestBody UpdateProductRequestDTO productRequestDTO,
                                                             @PathVariable("ID") long id) {
 
@@ -59,7 +60,7 @@ public class ProductController {
         return ResponseEntity.ok(productResponseDTO);
     }
 
-    @DeleteMapping(value = "{ID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "{ID}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable("ID") long id) {
 
         Product product = productService.delete(id);

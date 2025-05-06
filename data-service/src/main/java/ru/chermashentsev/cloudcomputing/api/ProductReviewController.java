@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.chermashentsev.cloudcomputing.dto.request.product.review.CreateProductReviewRequestDTO;
 import ru.chermashentsev.cloudcomputing.dto.response.product.review.ProductReviewResponseDTO;
+import ru.chermashentsev.cloudcomputing.entity.Product;
 import ru.chermashentsev.cloudcomputing.entity.ProductReview;
 import ru.chermashentsev.cloudcomputing.mapper.ProductReviewMapper;
 import ru.chermashentsev.cloudcomputing.service.ProductReviewService;
@@ -43,7 +44,8 @@ public class ProductReviewController {
 
         ProductReview productReview = productReviewMapper.toModel(productReviewRequestDTO);
 
-        productReview.setProductId(id);
+
+        productReview.setProduct(new Product());
 
         productReview = productReviewService.save(productReview);
 

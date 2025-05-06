@@ -29,10 +29,10 @@ public class ProductReviewService {
     }
 
     public ProductReview save(ProductReview productReview) {
-        String productEan = productReview.getEanProduct();
-        long userId = productReview.getUserId();
+        long productId = productReview.getProduct().getId();
+        long userId = productReview.getUser().getId();
 
-        findProductById(productEan);
+        findProductById(productId);
 
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND.format(userId)));

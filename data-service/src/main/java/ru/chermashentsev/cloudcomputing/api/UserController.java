@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "{ID}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable("ID") String id) {
+    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable("ID") long id) {
         User user = userService.delete(id);
 
         UserResponseDTO userResponseDTO = userMapper.toDto(user);

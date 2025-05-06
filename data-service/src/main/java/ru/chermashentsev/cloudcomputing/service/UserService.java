@@ -24,7 +24,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User delete(String id) {
+    public User delete(long id) {
         User user = findUserById(id);
 
         userRepository.delete(user);
@@ -32,7 +32,7 @@ public class UserService {
         return user;
     }
 
-    public User findUserById(String id) {
+    public User findUserById(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(ErrorCode.USER_NOT_FOUND.format(id)));
     }
