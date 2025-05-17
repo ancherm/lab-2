@@ -8,35 +8,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ru.chermashentsev.cloudcomputing.dto.request.product.CreateProductRequestDTO;
-import ru.chermashentsev.cloudcomputing.dto.response.product.ProductResponseDTO;
+import ru.chermashentsev.cloudcomputing.dto.request.product.review.CreateProductReviewRequestDTO;
+import ru.chermashentsev.cloudcomputing.dto.response.product.review.ProductReviewResponseDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("api/reviews")
 @RequiredArgsConstructor
-public class ProductController {
+public class ReviewController {
 
-    private final KafkaTemplate<String, CreateProductRequestDTO> kafkaTemplate;
+    private final KafkaTemplate<String, CreateProductReviewRequestDTO> kafkaTemplate;
 
-    @Value("${app.url.product}")
+    @Value("${app.url.review}")
     private String dataServiceUrl;
 
-    @Value("${app.kafka.product-topic}")
-    private String productTopic;
+    @Value("${app.kafka.review-topic}")
+    private String reviewTopic;
 
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody CreateProductRequestDTO requestDTO) {
-        kafkaTemplate.send(productTopic, requestDTO);
-        return ResponseEntity.ok("Successfully added product");
+    public ResponseEntity<String> addProduct(@RequestBody CreateProductReviewRequestDTO requestDTO) {
+        kafkaTemplate.send(reviewTopic, requestDTO);
+        return ResponseEntity.ok("Successfully added review");
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getProducts() {
+    public ResponseEntity<List<ProductReviewResponseDTO>> getProducts() {
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<List<ProductResponseDTO>> productResponseDTOS = restTemplate.exchange(
+        ResponseEntity<List<ProductReviewResponseDTO>> productResponseDTOS = restTemplate.exchange(
                 dataServiceUrl,
                 HttpMethod.GET,
                 null,
@@ -45,6 +45,5 @@ public class ProductController {
 
         return ResponseEntity.ok(productResponseDTOS.getBody());
     }
-
 
 }

@@ -5,24 +5,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.chermashentsev.cloudcomputing.dto.request.product.review.CreateProductReviewRequestDTO;
+import ru.chermashentsev.cloudcomputing.dto.response.product.ProductResponseDTO;
 import ru.chermashentsev.cloudcomputing.dto.response.product.review.ProductReviewResponseDTO;
 import ru.chermashentsev.cloudcomputing.entity.Product;
 import ru.chermashentsev.cloudcomputing.entity.ProductReview;
 import ru.chermashentsev.cloudcomputing.mapper.ProductReviewMapper;
 import ru.chermashentsev.cloudcomputing.service.ProductReviewService;
+import ru.chermashentsev.cloudcomputing.service.ProductService;
 
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("api/products/reviews")
+@RequestMapping("api/reviews")
 @RequiredArgsConstructor
 public class ProductReviewController {
 
     private final ProductReviewService productReviewService;
     private final ProductReviewMapper productReviewMapper;
-
+    private final ProductService productService;
 
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
@@ -44,8 +46,8 @@ public class ProductReviewController {
 
         ProductReview productReview = productReviewMapper.toModel(productReviewRequestDTO);
 
-
-        productReview.setProduct(new Product());
+        Product product = productService.findById(id);
+        productReview.setProduct(product);
 
         productReview = productReviewService.save(productReview);
 

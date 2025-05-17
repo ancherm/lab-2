@@ -10,6 +10,11 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 app:
+  url:
+    user: "http://localhost:8082/api/users"
+    product: "http://localhost:8082/api/products"
+    review: "http://localhost:8082/api/reviews"
+    report: "http://localhost:8082/api/reports"
   kafka:
     product-topic: product-topic
     user-topic: user-topic

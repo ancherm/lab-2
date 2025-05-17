@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody CreateUserRequestDTO userRequestDTO) {
         User user = userMapper.toModel(userRequestDTO);
 
-        User savedUser = userService.insert(user);
+        User savedUser = userService.save(user);
 
         UserResponseDTO userResponseDTO = userMapper.toDto(savedUser);
 
