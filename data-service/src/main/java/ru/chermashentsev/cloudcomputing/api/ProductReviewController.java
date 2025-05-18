@@ -18,7 +18,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("api/reviews")
+@RequestMapping("reviews")
 @RequiredArgsConstructor
 public class ProductReviewController {
 

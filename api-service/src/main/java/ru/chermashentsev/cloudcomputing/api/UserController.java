@@ -20,7 +20,7 @@ public class UserController {
 
     private final KafkaTemplate<String, CreateUserRequestDTO> kafkaTemplate;
 
-    @Value("${app.url.user}")
+    @Value("${app.url.data-service}")
     private String dataServiceUrl;
 
     @Value("${app.kafka.user-topic}")
@@ -28,17 +28,17 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody CreateUserRequestDTO requestDTO) {
+    public ResponseEntity<String> addUser(@RequestBody CreateUserRequestDTO requestDTO) {
         kafkaTemplate.send(userTopic, requestDTO);
         return ResponseEntity.ok("Successfully added user");
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getProducts() {
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<List<UserResponseDTO>> userResponseDTOs = restTemplate.exchange(
-                dataServiceUrl,
+                dataServiceUrl + "/users",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}

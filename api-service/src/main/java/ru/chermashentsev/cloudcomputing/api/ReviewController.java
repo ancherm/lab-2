@@ -20,7 +20,7 @@ public class ReviewController {
 
     private final KafkaTemplate<String, CreateProductReviewRequestDTO> kafkaTemplate;
 
-    @Value("${app.url.review}")
+    @Value("${app.url.data-service}")
     private String dataServiceUrl;
 
     @Value("${app.kafka.review-topic}")
@@ -37,7 +37,7 @@ public class ReviewController {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<List<ProductReviewResponseDTO>> productResponseDTOS = restTemplate.exchange(
-                dataServiceUrl,
+                dataServiceUrl + "/reviews",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}

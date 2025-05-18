@@ -16,7 +16,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.*;
 
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("products")
 @RequiredArgsConstructor
 public class ProductController {
 

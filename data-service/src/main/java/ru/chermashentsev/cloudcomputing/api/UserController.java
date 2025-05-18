@@ -14,7 +14,7 @@ import ru.chermashentsev.cloudcomputing.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("users")
 @RequiredArgsConstructor
 public class UserController {
 

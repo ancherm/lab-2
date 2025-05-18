@@ -20,7 +20,7 @@ public class ProductController {
 
     private final KafkaTemplate<String, CreateProductRequestDTO> kafkaTemplate;
 
-    @Value("${app.url.product}")
+    @Value("${app.url.data-service}")
     private String dataServiceUrl;
 
     @Value("${app.kafka.product-topic}")
@@ -37,7 +37,7 @@ public class ProductController {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<List<ProductResponseDTO>> productResponseDTOS = restTemplate.exchange(
-                dataServiceUrl,
+                dataServiceUrl + "/products",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}

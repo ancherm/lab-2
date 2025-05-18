@@ -23,12 +23,12 @@ public class ReportController {
 
     private final RestTemplate restTemplate;
 
-    @Value("${app.url.report}")
+    @Value("${app.url.data-service}")
     private String dataServiceUrl;
 
     @GetMapping("get-avg-rating-and-count-reviews")
     public ResponseEntity<List<AvgRatingAndCountReviewDTO>> getAvgRatingAndCountReviews() {
-        return restTemplate.exchange(dataServiceUrl +"/get-avg-rating-and-count-reviews",
+        return restTemplate.exchange(dataServiceUrl +"/reports/get-avg-rating-and-count-reviews",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}
@@ -37,7 +37,7 @@ public class ReportController {
 
     @GetMapping("get-recommend-percentage")
     public ResponseEntity<List<ProductRecommendReportDTO>> getRecommendPercentage() {
-        return restTemplate.exchange(dataServiceUrl +"/get-recommend-percentage",
+        return restTemplate.exchange(dataServiceUrl +"/reports/get-recommend-percentage",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}
@@ -46,7 +46,7 @@ public class ReportController {
 
     @GetMapping("get-avg-by-gender")
     public ResponseEntity<List<RatingByGenderReportDTO>> getRatingByGender() {
-        return restTemplate.exchange(dataServiceUrl +"/get-avg-by-gender",
+        return restTemplate.exchange(dataServiceUrl +"/reports/get-avg-by-gender",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}
@@ -55,7 +55,7 @@ public class ReportController {
 
     @GetMapping("get-company-rating")
     public ResponseEntity<List<CompanyRatingReportDTO>> getCompanyRating() {
-        return restTemplate.exchange(dataServiceUrl +"/get-company-rating",
+        return restTemplate.exchange(dataServiceUrl +"/reports/get-company-rating",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}

@@ -3,7 +3,7 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -11,10 +11,7 @@ spring:
 
 app:
   url:
-    user: "http://localhost:8082/api/users"
-    product: "http://localhost:8082/api/products"
-    review: "http://localhost:8082/api/reviews"
-    report: "http://localhost:8082/api/reports"
+    data-service: ${DATA_SERVICE}
   kafka:
     product-topic: product-topic
     user-topic: user-topic

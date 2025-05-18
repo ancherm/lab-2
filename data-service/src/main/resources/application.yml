@@ -12,7 +12,7 @@ spring:
     database-platform: ${DATABASE_PLATFORM}
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
     consumer:
       group-id: data-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
