@@ -2,6 +2,7 @@ package ru.chermashentsev.cloudcomputing.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.chermashentsev.cloudcomputing.dto.request.product.CreateProductRequestDTO;
@@ -21,7 +22,8 @@ public class UserConsumer {
     private final UserService userService;
 
     @KafkaListener(topics = "${app.kafka.user-topic}")
-    public void listen(CreateUserRequestDTO requestDTO) {
+    public void listen(ConsumerRecord<String, CreateUserRequestDTO> record) {
+        CreateUserRequestDTO requestDTO = record.value();
         User user = userMapper.toModel(requestDTO);
 
         userService.save(user);

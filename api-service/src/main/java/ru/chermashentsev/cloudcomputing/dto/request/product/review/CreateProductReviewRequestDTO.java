@@ -14,7 +14,7 @@ import static ru.chermashentsev.cloudcomputing.constants.ValidationMessage.RATIN
 @EqualsAndHashCode
 public class CreateProductReviewRequestDTO {
 
-    private long productId;
+    private Long productId;
 
     @Min(value = 1, message = RATING_RANGE_MESSAGE)
     @Max(value = 5, message = RATING_RANGE_MESSAGE)

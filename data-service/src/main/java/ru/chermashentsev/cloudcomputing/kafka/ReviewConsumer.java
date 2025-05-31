@@ -2,6 +2,7 @@ package ru.chermashentsev.cloudcomputing.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.chermashentsev.cloudcomputing.dto.request.product.CreateProductRequestDTO;
@@ -25,7 +26,8 @@ public class ReviewConsumer {
     private final UserService userService;
 
     @KafkaListener(topics = "${app.kafka.review-topic}")
-    public void listen(CreateProductReviewRequestDTO requestDTO) {
+    public void listen(ConsumerRecord<String, CreateProductReviewRequestDTO> record) {
+        CreateProductReviewRequestDTO requestDTO = record.value();
         ProductReview productReview = productReviewMapper.toModel(requestDTO);
 
         Product product = productService.findById(requestDTO.getProductId());

@@ -1,15 +1,12 @@
 package ru.chermashentsev.cloudcomputing.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import ru.chermashentsev.cloudcomputing.client.ApiClient;
 import ru.chermashentsev.cloudcomputing.dto.request.product.CreateProductRequestDTO;
 import ru.chermashentsev.cloudcomputing.dto.response.product.ProductResponseDTO;
+import ru.chermashentsev.cloudcomputing.kafka.KafkaProducer;
 
 import java.util.List;
 
@@ -18,32 +15,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final KafkaTemplate<String, CreateProductRequestDTO> kafkaTemplate;
+    private final KafkaProducer kafkaProducer;
+    private final ApiClient apiClient;
 
-    @Value("${app.url.data-service}")
-    private String dataServiceUrl;
-
-    @Value("${app.kafka.product-topic}")
-    private String productTopic;
 
     @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody CreateProductRequestDTO requestDTO) {
-        kafkaTemplate.send(productTopic, requestDTO);
+        kafkaProducer.sendProduct(requestDTO);
         return ResponseEntity.ok("Successfully added product");
     }
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getProducts() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<List<ProductResponseDTO>> productResponseDTOS = restTemplate.exchange(
-                dataServiceUrl + "/products",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        return ResponseEntity.ok(productResponseDTOS.getBody());
+        return ResponseEntity.ok(apiClient.getAllProducts().getBody());
     }
 
 
